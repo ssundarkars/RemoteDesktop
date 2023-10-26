@@ -56,7 +56,7 @@ class Comunication(Thread):
                             if status=='True':
                                 auto.mouseDown(int(x),int(y),button='middle')
                             else:
-                                auto.mouseup(int(x),int(y),button='middle')
+                                auto.mouseUp(int(x),int(y),button='middle')
                         elif click=='Button.right':
                             if status=='True':
                                 auto.mouseDown(int(x),int(y),button='right')
