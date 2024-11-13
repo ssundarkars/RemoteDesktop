@@ -55,7 +55,7 @@ class Comunication(Thread):
                         size=len(buffer)
                     
                     if buffer:
-                        img=open('stream.png','wb+')
+                        img=open('streamer.png','wb+')
                         img.write(buffer)
                         img.close()
                 else:
@@ -94,17 +94,18 @@ def instructor(instruction,clt,sender,reciever):
         sender.stop()
         reciever.stop()
         clt.close()
-
-server=socket.socket(socket.AF_INET,socket.SOCK_STREAM)
-machine=socket.gethostname()
-server.bind(('127.0.0.1',36106))                #This machines IP address
-server.listen(1)
-clt,addr=server.accept()
-print('Connection Stablished with, ',clt)
-sender=Comunication('sender',clt)
-reciever=Comunication('reciever',clt)
-clickMngr=MouseEvents('clickManager',clt)
-start=startScreen(False,clt,sender,reciever)
-clickMngr.start()
-instruction=["1: LiftUp","2: Down","3: MoveRight","4: MoveLeft",'5: Slow','6: Accelerate',"7: Move-Forward","8: Move-Backward"]
-instructor(instruction,clt,sender,reciever)
+if __name__=='__main__':
+    server=socket.socket(socket.AF_INET,socket.SOCK_STREAM)
+    machine=socket.gethostname()
+    server.bind(('127.0.0.1',30008))                #This machines IP address
+    server.listen(1)
+    print('Server srated')
+    clt,addr=server.accept()
+    print('Connection Stablished with, ',clt)
+    sender=Comunication('sender',clt)
+    reciever=Comunication('reciever',clt)
+    clickMngr=MouseEvents('clickManager',clt)
+    start=startScreen(False,clt,sender,reciever)
+    clickMngr.start()
+    instruction=["1: LiftUp","2: Down","3: MoveRight","4: MoveLeft",'5: Slow','6: Accelerate',"7: Move-Forward","8: Move-Backward"]
+    instructor(instruction,clt,sender,reciever)

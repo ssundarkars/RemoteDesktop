@@ -25,17 +25,9 @@ class Comunication(Thread):
 
             if self.machine=='sender':
                 img=auto.screenshot()
-                img.save('file.png')
-                with open('file.png','rb') as file:
-                    data=file.read()
-                    size=len(data)
-                    if size==pre:
-                        time.sleep(.1)
-                    else:
-                        pre=size
-                        self.con.send(bytes(f'{size}','utf-8'))
-                        time.sleep(.2)
-                        self.con.sendall(data)
+                self.con.send(bytes(f'{img.size}','utf-8'))
+                time.sleep(.2)
+                self.con.sendall(img)
 
             elif self.machine=='reciever':
                 try:
@@ -78,7 +70,7 @@ class Comunication(Thread):
 
 if __name__=='__main__':
     client= socket.socket(socket.AF_INET,socket.SOCK_STREAM)
-    client.connect(('127.0.0.1',36106))            #server's IP address required 
+    client.connect(('127.0.0.1',30008))            #server's IP address required 
     reciever=Comunication('reciever',client)
     sender=Comunication('sender',client)
     start=str(client.recv(1024).decode())
